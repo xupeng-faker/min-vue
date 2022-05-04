@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app"></div>
+</body>
+<script>
+    const data = {
+        msg: 'Hello world',
+        code: 0
+    }
+
+    const vm = new Proxy(data, {
+        get(target, key) {
+            console.log('get', key)
+            return target[key]
+        },
+        set(target, key, value) {
+            console.log('set', key, value)
+            if (target[key] === value) {
+                return false
+            }
+            target[key] = value
+            document.querySelector('#app').textContent = value
+            return true
+        }
+    })
+    vm.msg = 'hello'
+</script>
+</html>
